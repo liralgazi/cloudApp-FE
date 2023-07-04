@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:3000/getAll')
     .then(response => response.json())
     .then(data => console.log(data))
-    //.then(data => loadHTMLTable([]));
     .then(data => loadHTMLTable(data['data']));
     
    loadHTMLTable([]);
@@ -29,34 +28,6 @@ addBtn.onclick = function () {
 }
 
 
-function insertRowIntoTable(data) {
-    console.log(data);
-    const table = document.querySelector('table tbody');
-    const isTableData = table.querySelector('.no-data');
-
-    let tableHtml = "<tr>";
-
-    for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-            if (key === 'dateAdded') {
-                data[key] = new Date(data[key]).toLocaleString();
-            }
-            tableHtml += `<td>${data[key]}</td>`;
-        }
-    }
-
-    tableHtml += `<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
-    tableHtml += `<td><button class="edit-row-btn" data-id=${data.id}>Edit</td>`;
-
-    tableHtml += "</tr>";
-
-    if (isTableData) {
-        table.innerHTML = tableHtml;
-    } else {
-        const newRow = table.insertRow();
-        newRow.innerHTML = tableHtml;
-    }
-}
 
 
 /*
