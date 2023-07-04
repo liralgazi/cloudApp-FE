@@ -2,35 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     fetch('http://localhost:3000/getAll')
     .then(response => response.json())
-    .then(data => console.log(data))
     .then(data => loadHTMLTable(data['data']));
     
    loadHTMLTable([]);
     
 });
 
-const addBtn = document.querySelector('#add-name-btn');
-
-addBtn.onclick = function () {
-    const nameInput = document.querySelector('#name-input');
-    const name = nameInput.value;
-    nameInput.value = "";
-
-    fetch('http://localhost:3000/insert', {
-        headers: {
-            'Content-type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ name : name})
-    })
-    .then(response => response.json())
-    .then(data => insertRowIntoTable(data['data']));
-}
-
-
-
-
-/*
 document.querySelector('table tbody').addEventListener('click', function(event) {
     if (event.target.className === "delete-row-btn") {
         deleteRowById(event.target.dataset.id);
@@ -46,13 +23,13 @@ const searchBtn = document.querySelector('#search-btn');
 searchBtn.onclick = function() {
     const searchValue = document.querySelector('#search-input').value;
 
-    fetch('http://localhost:5000/search/' + searchValue)
+    fetch('http://localhost:3000/search/' + searchValue)
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 }
 
 function deleteRowById(id) {
-    fetch('http://localhost:5000/delete/' + id, {
+    fetch('http://localhost:3000/delete/' + id, {
         method: 'DELETE'
     })
     .then(response => response.json())
@@ -101,7 +78,7 @@ addBtn.onclick = function () {
     const name = nameInput.value;
     nameInput.value = "";
 
-    fetch('http://localhost:5000/insert', {
+    fetch('http://localhost:3000/insert', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -111,6 +88,9 @@ addBtn.onclick = function () {
     .then(response => response.json())
     .then(data => insertRowIntoTable(data['data']));
 }
+
+
+
 
 
 function insertRowIntoTable(data) {
@@ -141,28 +121,27 @@ function insertRowIntoTable(data) {
         newRow.innerHTML = tableHtml;
     }
 }
-*/
 function loadHTMLTable(data) {
     const table = document.querySelector('table tbody');
-    console.log(data);
+
     if (data.length === 0) {
         table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
-        //return;
+        return;
     }
 
-    /*
+    
     let tableHtml = "";
 
-    data.forEach(function ({id, name, date_added}) {
+    data.forEach(function ({id, users, date_added}) {
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`;
-        tableHtml += `<td>${name}</td>`;
+        tableHtml += `<td>${users}</td>`;
         tableHtml += `<td>${new Date(date_added).toLocaleString()}</td>`;
         tableHtml += `<td><button class="delete-row-btn" data-id=${id}>Delete</td>`;
         tableHtml += `<td><button class="edit-row-btn" data-id=${id}>Edit</td>`;
         tableHtml += "</tr>";
     });
-    */
+    
 
-    //table.innerHTML = tableHtml;
+    table.innerHTML = tableHtml;
 }
